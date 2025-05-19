@@ -84,7 +84,7 @@ export const Container = styled.div`
       right: 1rem;
       top: 56.4%;
       transform: translateY(-50%);
-      color: ${props => props.theme['purple-300']};
+      color: #7E57C2; /* cor roxa - purple-300 */
       cursor: pointer;
     }
   }
@@ -92,7 +92,7 @@ export const Container = styled.div`
   button {
     width: 85%;
     height: 45px;
-    background-color: ${props => props.theme['purple-100']};
+    background-color: #9575CD; /* purple-100 */
     color: white;
     border: none;
     border-radius: 8px;
@@ -102,13 +102,13 @@ export const Container = styled.div`
     transition: background 0.3s;
 
     &:hover {
-      background-color: ${props => props.theme['purple-300']};
+      background-color: #7E57C2; /* purple-300 */
     }
   }
 
   .registerButton {
     margin-top: 1rem;
-    background-color: ${(props) => props.theme['purple-100']};
+    background-color: #9575CD; /* purple-100 */
     color: white;
     font-weight: bold;
     border-radius: 8px;
@@ -117,7 +117,7 @@ export const Container = styled.div`
     font-size: 1rem;
 
     &:hover {
-      background-color: ${(props) => props.theme['purple-300']};
+      background-color: #7E57C2; /* purple-300 */
     }
   }
 
@@ -131,7 +131,7 @@ export const Container = styled.div`
 
     .registerTextArea {
       font-size: 0.875rem;
-      color: ${props => props.theme['black']};
+      color: #000000; /* black */
       margin: 0;
       justify-content: center;
       display: flex;
@@ -140,7 +140,7 @@ export const Container = styled.div`
     }
 
     a {
-      color: ${props => props.theme['purple-100']};
+      color: #9575CD; /* purple-100 */
       text-decoration: underline;
     }
   }
@@ -158,16 +158,16 @@ export const Container = styled.div`
 
     a {
       text-decoration: none;
-      color: ${props => props.theme['purple-100']};
+      color: #9575CD; /* purple-100 */
     }
   }
 
-.logoWrapper {
-      margin-top: 10px;
-      margin-left: 50px;
+  .logoWrapper {
+    margin-top: 10px;
+    margin-left: 50px;
 
-      img {
-        width: 162px;
-   }
-}
+    img {
+      width: 162px;
+    }
+  }
 `;

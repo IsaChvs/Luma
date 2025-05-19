@@ -7,6 +7,7 @@ import { Divider } from "@mui/material";
 import Logo from "../../assets/LogoFudida.png";
 
 import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 type CadastroSignUpProps = {
   onRegister: (msg: string) => void;
@@ -14,9 +15,66 @@ type CadastroSignUpProps = {
 
 export function CadastroSignUp({ onRegister }: CadastroSignUpProps) {
   const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    nome: "",
+    cpf: "",
+    username: "",
+    email: "",
+    senha: "",
+    confirmarSenha: "",
+  });
+
+  const [errors, setErrors] = useState({
+    nome: "",
+    cpf: "",
+    username: "",
+    email: "",
+    senha: "",
+    confirmarSenha: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setForm({ ...form, [id]: value });
+    setErrors({ ...errors, [id]: "" }); // limpa erro ao digitar
+  };
+
+  const validarCampos = () => {
+    const newErrors: typeof errors = {
+      nome: "",
+      cpf: "",
+      username: "",
+      email: "",
+      senha: "",
+      confirmarSenha: "",
+    };
+
+    if (!form.nome.trim()) newErrors.nome = "Nome é obrigatório.";
+    if (!/^\d{11}$/.test(form.cpf)) newErrors.cpf = "CPF deve conter 11 números.";
+    if (!form.username.trim()) newErrors.username = "Nome de usuário é obrigatório.";
+    if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "E-mail inválido.";
+    if (form.senha.length < 6) newErrors.senha = "A senha deve ter pelo menos 6 caracteres.";
+    if (form.senha !== form.confirmarSenha) newErrors.confirmarSenha = "As senhas não coincidem.";
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((erro) => erro === "");
+  };
+
   const handleCadastro = () => {
-    onRegister("Usuário Registrado!");
-    navigate("/CadastroSignUp");
+    if (validarCampos()) {
+      onRegister("Usuário Registrado!");
+      navigate("/CadastroSignUp");
+    }
+  };
+
+  const errorStyle = {
+    color: "red",
+    fontSize: "0.78rem",
+    marginTop: "2px",
+    marginBottom: "0",
+    textAlign: "center" as const,
   };
 
   return (
@@ -31,77 +89,102 @@ export function CadastroSignUp({ onRegister }: CadastroSignUpProps) {
           <p>Preencha os campos para se cadastrar.</p>
         </div>
 
-        <form className="signUpForm">
+        <form className="signUpForm" onSubmit={(e) => e.preventDefault()}>
+          {/* Nome */}
           <div className="inputGroup">
             <label htmlFor="nome">Nome completo:</label>
             <input
               type="text"
               id="nome"
+              value={form.nome}
+              onChange={handleChange}
               placeholder="Digite seu nome"
-              required
             />
+            {errors.nome && <p style={errorStyle}>{errors.nome}</p>}
           </div>
 
+          {/* CPF */}
           <div className="inputGroup">
             <label htmlFor="cpf">CPF:</label>
-            <input type="text" id="cpf" placeholder="Digite seu CPF" required />
+            <input
+              type="text"
+              id="cpf"
+              value={form.cpf}
+              onChange={handleChange}
+              placeholder="Digite seu CPF"
+            />
+            {errors.cpf && <p style={errorStyle}>{errors.cpf}</p>}
           </div>
 
+          {/* Username */}
           <div className="inputGroup">
             <label htmlFor="username">Nome de usuário:</label>
             <input
               type="text"
               id="username"
+              value={form.username}
+              onChange={handleChange}
               placeholder="Escolha um nome de usuário"
-              required
             />
+            {errors.username && <p style={errorStyle}>{errors.username}</p>}
           </div>
 
+          {/* Email */}
           <div className="inputGroup">
             <label htmlFor="email">E-mail:</label>
             <input
               type="email"
               id="email"
+              value={form.email}
+              onChange={handleChange}
               placeholder="Digite seu e-mail"
-              required
             />
+            {errors.email && <p style={errorStyle}>{errors.email}</p>}
           </div>
 
+          {/* Senha */}
           <div className="inputGroup">
             <label htmlFor="senha">Senha:</label>
             <div className="inputWithIcon">
               <input
                 type="password"
                 id="senha"
+                value={form.senha}
+                onChange={handleChange}
                 placeholder="Crie uma senha"
-                required
               />
               <VisibilityOutlinedIcon className="icon" />
             </div>
+            {errors.senha && <p style={errorStyle}>{errors.senha}</p>}
           </div>
 
+          {/* Confirmar senha */}
           <div className="inputGroup">
             <label htmlFor="confirmarSenha">Confirmar senha:</label>
             <div className="inputWithIcon">
               <input
                 type="password"
                 id="confirmarSenha"
+                value={form.confirmarSenha}
+                onChange={handleChange}
                 placeholder="Confirme sua senha"
-                required
               />
               <VisibilityOutlinedIcon className="icon" />
             </div>
+            {errors.confirmarSenha && (
+              <p style={errorStyle}>{errors.confirmarSenha}</p>
+            )}
           </div>
-        </form>
 
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleCadastro}
-          className="registerButton"
-        >
-          Cadastrar
-        </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleCadastro}
+            className="registerButton"
+          >
+            Cadastrar
+          </Button>
+        </form>
 
         <div className="loginLink">
           <Divider>
